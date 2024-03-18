@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Задание 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .block{
+            width: 100%;
+            background-color: darkseagreen;
+
+        }
+
+        .dropdown {
+            background-color: dodgerblue;
+            color: lightskyblue;
+            cursor: pointer;
+            width: 20%;
+            padding: 20px;
+            border: none;
+            outline: none;
+            text-align: center;
+        }
+
+        .active, .dropdown:hover {
+            background-color: dimgray;
+        }
+
+        .panel {
+            background-color: dimgray ;
+            color: lightskyblue;
+            display: none;
+            overflow: hidden;
+            text-align: center;
+            width: 20%;
+        }
+    </style>
+</head>
+<body>
+<div class="block" id="block">
+<button class="dropdown" id="dropButton">Выпадающий блок</button>
+<div class="panel" id = "hidden">
+    <p>Скрытый текст</p>
+</div>
+</div>
+<script>
+    let drop = document.getElementById("dropButton");
+    function handler1(){
+        this.classList.toggle("active");
+        let panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+
+    function handler2(e){
+        if (!block.contains(e.target)){
+            hidden.style.display = 'none';
+        }
+    }
+
+
+    drop.addEventListener("click", handler1);
+
+    let hidden = document.getElementById("hidden")
+    let block = document.getElementById("block")
+
+    document.addEventListener('click', handler2);
+
+
+
+</script>
+</body>
+</html>

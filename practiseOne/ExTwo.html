@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма для ввода ФИО</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <form id="myForm">
+        <div class="form-group">
+            <label for="FirstName">Имя</label>
+            <input type="text" class="form-control" id="FirstName" placeholder="Введите имя">
+        </div>
+        <div class="form-group">
+            <label for="LastName">Фамилия</label>
+            <input type="text" class="form-control" id="LastName" placeholder="Введите фамилию">
+        </div>
+        <div class="form-group">
+            <label for="Patronymic">Отчество</label>
+            <input type="text" class="form-control" id="Patronymic" placeholder="Введите отчество">
+        </div>
+        <button type="submit" class="btn btn-primary" id = 'btn'>Отправить</button>
+    </form>
+    <div id="output-container"></div>
+</div>
+
+<script>
+    let inputs = document.querySelectorAll("input");
+
+    let bannedVal = /[^а-яё\s-]/ig;
+
+    function formatInputValue(inputElement) {
+        let value = inputElement.value.trim().replace(bannedVal, '');
+        value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        value = value.replace(/[-\s]{2,}/g, m => m.slice(0, 1));
+        inputElement.value = value;
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('keypress', event => {
+            if (!/[а-яё\s-]/i.test(event.key)) {
+                event.preventDefault();
+            }
+        });
+
+        input.addEventListener('blur', () => {
+            formatInputValue(input);
+        });
+    });
+
+    document.querySelector('#myForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const firstName = document.getElementById('FirstName').value.trim();
+        const lastName = document.getElementById('LastName').value.trim();
+        const middleName = document.getElementById('Patronymic').value.trim();
+
+        if (firstName && lastName && middleName) {
+            const outputContainer = document.getElementById('output-container');
+
+            const paragraph = document.createElement('p');
+            paragraph.textContent =`${lastName} ${firstName} ${middleName}`;
+            outputContainer.appendChild(paragraph);
+
+            inputs.forEach(input => {
+                input.value = '';
+            });
+        } else {
+            alert('Пожалуйста, заполните все поля перед отправкой формы.');
+        }
+    });
+</script>
+
+</body>
+</html>
